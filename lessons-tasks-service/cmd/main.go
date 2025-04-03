@@ -1,4 +1,3 @@
-// lessons-tasks-service/cmd/main.go
 package main
 
 import (
@@ -14,7 +13,7 @@ import (
 
 	"github.com/go-redis/redis/v8"
 	_ "github.com/lib/pq"
-	"github.com/moyamoyaradost/classroom-go/lessons-tasks-service/api/v1"
+	v1 "github.com/moyamoyaradost/classroom-go/lessons-tasks-service/api/v1"
 	"github.com/moyamoyaradost/classroom-go/lessons-tasks-service/internal/handler"
 	"github.com/moyamoyaradost/classroom-go/lessons-tasks-service/internal/repository"
 	"google.golang.org/grpc"
@@ -36,7 +35,7 @@ func main() {
 	// Инициализация подключения к PostgreSQL
 	dbConnStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		dbHost, dbPort, dbUser, dbPass, dbName)
-	
+
 	db, err := sql.Open("postgres", dbConnStr)
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
@@ -58,7 +57,7 @@ func main() {
 	// Проверка соединения с Redis
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	
+
 	if _, err := rdb.Ping(ctx).Result(); err != nil {
 		log.Fatalf("Failed to connect to Redis: %v", err)
 	}
@@ -68,11 +67,12 @@ func main() {
 	lessonRepo := repository.NewLessonRepo(db)
 	taskRepo := repository.NewTaskRepo(db)
 	userTaskRepo := repository.NewUserTaskRepo(db)
+	answerRepo := repository.NewTaskAnswerRepo(db) // Добавленный репозиторий
 
 	// Инициализация обработчиков
 	lessonServer := handler.NewLessonsServer(lessonRepo)
-    taskServer := handler.NewTasksServer(taskRepo, userTaskRepo)
-    
+	taskServer := handler.NewTasksServer(taskRepo, userTaskRepo, answerRepo) // Исправленный вызов
+
 	// Запуск gRPC-сервера
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", grpcPort))
 	if err != nil {
@@ -80,11 +80,11 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-	
+
 	// Регистрация сервисов
 	v1.RegisterLessonsServiceServer(grpcServer, lessonServer)
 	v1.RegisterTasksServiceServer(grpcServer, taskServer)
-	
+
 	// Включение рефлексии для инструментов отладки
 	reflection.Register(grpcServer)
 
@@ -106,7 +106,6 @@ func main() {
 	log.Println("Server stopped")
 }
 
-// getEnv получает значение переменной окружения или возвращает значение по умолчанию
 func getEnv(key, defaultValue string) string {
 	if value, exists := os.LookupEnv(key); exists {
 		return value

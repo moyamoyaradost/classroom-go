@@ -17,6 +17,12 @@ service TasksService {
     rpc GetTasksByCourse (CourseIdRequest) returns (TasksListResponse);
     rpc CompleteTask (UserTaskRequest) returns (CompleteTaskResponse);
     rpc GetCompletedTasksByUser (UserIdRequest) returns (UserTasksListResponse);
+    
+    // Отправка ответа на задание
+    rpc SubmitTaskAnswer(SubmitAnswerRequest) returns (SubmitAnswerResponse);
+    
+    // Получение ответов ученика на задание
+    rpc GetTaskAnswers(TaskAnswersRequest) returns (TaskAnswersResponse);
 }
 
 // Сообщения для уроков
@@ -30,6 +36,7 @@ message LessonResponse {
     string course_id = 2;
     string description = 3;
 }
+
 message UserIdRequest {
     string user_id = 1;
 }
@@ -66,6 +73,33 @@ message CompleteTaskResponse {
 
 message UserTasksListResponse {
     repeated TaskResponse tasks = 1;
+}
+
+// Сообщения для ответов на задания
+message SubmitAnswerRequest {
+    string task_id = 1;
+    string user_id = 2;
+    string answer_text = 3;
+    repeated string attachment_urls = 4;
+}
+
+message SubmitAnswerResponse {
+    string id = 1;
+    string task_id = 2;
+    string user_id = 3;
+    string answer_text = 4;
+    repeated string attachment_urls = 5;
+    string status = 6; // "pending", "approved", "rejected"
+    string created_at = 7;
+}
+
+message TaskAnswersRequest {
+    string task_id = 1;
+    string user_id = 2; // Опционально, если нужно получить ответы конкретного ученика
+}
+
+message TaskAnswersResponse {
+    repeated SubmitAnswerResponse answers = 1;
 }
 
 // Общие сообщения

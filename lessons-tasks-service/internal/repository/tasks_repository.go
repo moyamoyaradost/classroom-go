@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+
 	"github.com/moyamoyaradost/classroom-go/lessons-tasks-service/models"
 )
 
@@ -34,4 +35,24 @@ func (r *TaskRepo) GetTaskByID(ctx context.Context, id string) (models.Task, err
 		return task, errors.New("task not found")
 	}
 	return task, err
+}
+func (r *TaskRepo) GetTasksByCourse(ctx context.Context, courseID string) ([]models.Task, error) {
+	rows, err := r.db.QueryContext(ctx,
+		"SELECT id, course_id, description, created_at FROM tasks WHERE course_id = $1",
+		courseID,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var tasks []models.Task
+	for rows.Next() {
+		var task models.Task
+		if err := rows.Scan(&task.ID, &task.CourseID, &task.Description, &task.CreatedAt); err != nil {
+			return nil, err
+		}
+		tasks = append(tasks, task)
+	}
+	return tasks, nil
 }

@@ -57,3 +57,9 @@ func (r *LessonRepo) GetLessonsByCourse(ctx context.Context, courseID string) ([
 	}
 	return lessons, nil
 }
+
+// DeleteLesson удаляет урок по ID
+func (r *LessonRepo) DeleteLesson(ctx context.Context, lessonID string) error {
+	_, err := r.db.ExecContext(ctx, "DELETE FROM lessons WHERE id = $1", lessonID)
+	return err
+}
