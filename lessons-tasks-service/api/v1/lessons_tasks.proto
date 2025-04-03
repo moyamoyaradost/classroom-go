@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package classroom.v1;
+option go_package = "github.com/moyamoyaradost/classroom-go/lessons-tasks-service/api/v1;v1";
+
+
+// Сервис для работы с уроками
+service LessonsService {
+    rpc CreateLesson (LessonCreateRequest) returns (LessonResponse);
+    rpc GetLessonsByCourse (CourseIdRequest) returns (LessonsListResponse);
+    rpc DeleteLesson (LessonIdRequest) returns (DeleteResponse);
+}
+
+// Сервис для работы с заданиями
+service TasksService {
+    rpc CreateTask (TaskCreateRequest) returns (TaskResponse);
+    rpc GetTasksByCourse (CourseIdRequest) returns (TasksListResponse);
+    rpc CompleteTask (UserTaskRequest) returns (CompleteTaskResponse);
+    rpc GetCompletedTasksByUser (UserIdRequest) returns (UserTasksListResponse);
+}
+
+// Сообщения для уроков
+message LessonCreateRequest {
+    string course_id = 1;
+    string description = 2;
+}
+
+message LessonResponse {
+    string id = 1;
+    string course_id = 2;
+    string description = 3;
+}
+message UserIdRequest {
+    string user_id = 1;
+}
+
+message LessonsListResponse {
+    repeated LessonResponse lessons = 1;
+}
+
+// Сообщения для заданий
+message TaskCreateRequest {
+    string course_id = 1;
+    string description = 2;
+}
+
+message TaskResponse {
+    string id = 1;
+    string course_id = 2;
+    string description = 3;
+}
+
+message TasksListResponse {
+    repeated TaskResponse tasks = 1;
+}
+
+// Сообщения для связи ученики-задания
+message UserTaskRequest {
+    string task_id = 1;
+    string user_id = 2;
+}
+
+message CompleteTaskResponse {
+    bool success = 1;
+}
+
+message UserTasksListResponse {
+    repeated TaskResponse tasks = 1;
+}
+
+// Общие сообщения
+message CourseIdRequest {
+    string course_id = 1;
+}
+
+message LessonIdRequest {
+    string lesson_id = 1;
+}
+
+message DeleteResponse {
+    bool success = 1;
+}
