@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS task_answers (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     task_id UUID NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL, -- Убрали REFERENCES users(id)
     answer_text TEXT NOT NULL,
     attachment_urls TEXT[] DEFAULT '{}',
     status TEXT NOT NULL DEFAULT 'pending',

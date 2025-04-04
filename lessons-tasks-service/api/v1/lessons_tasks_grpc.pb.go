@@ -8,7 +8,6 @@ package v1
 
 import (
 	context "context"
-
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -29,7 +28,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// Сервис для работы с уроками
+// Сервисы
 type LessonsServiceClient interface {
 	CreateLesson(ctx context.Context, in *LessonCreateRequest, opts ...grpc.CallOption) (*LessonResponse, error)
 	GetLessonsByCourse(ctx context.Context, in *CourseIdRequest, opts ...grpc.CallOption) (*LessonsListResponse, error)
@@ -78,7 +77,7 @@ func (c *lessonsServiceClient) DeleteLesson(ctx context.Context, in *LessonIdReq
 // All implementations must embed UnimplementedLessonsServiceServer
 // for forward compatibility.
 //
-// Сервис для работы с уроками
+// Сервисы
 type LessonsServiceServer interface {
 	CreateLesson(context.Context, *LessonCreateRequest) (*LessonResponse, error)
 	GetLessonsByCourse(context.Context, *CourseIdRequest) (*LessonsListResponse, error)
@@ -206,18 +205,20 @@ const (
 	TasksService_GetTasksByCourse_FullMethodName        = "/classroom.v1.TasksService/GetTasksByCourse"
 	TasksService_CompleteTask_FullMethodName            = "/classroom.v1.TasksService/CompleteTask"
 	TasksService_GetCompletedTasksByUser_FullMethodName = "/classroom.v1.TasksService/GetCompletedTasksByUser"
+	TasksService_SubmitTaskAnswer_FullMethodName        = "/classroom.v1.TasksService/SubmitTaskAnswer"
+	TasksService_GetTaskAnswers_FullMethodName          = "/classroom.v1.TasksService/GetTaskAnswers"
 )
 
 // TasksServiceClient is the client API for TasksService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-//
-// Сервис для работы с заданиями
 type TasksServiceClient interface {
 	CreateTask(ctx context.Context, in *TaskCreateRequest, opts ...grpc.CallOption) (*TaskResponse, error)
 	GetTasksByCourse(ctx context.Context, in *CourseIdRequest, opts ...grpc.CallOption) (*TasksListResponse, error)
 	CompleteTask(ctx context.Context, in *UserTaskRequest, opts ...grpc.CallOption) (*CompleteTaskResponse, error)
 	GetCompletedTasksByUser(ctx context.Context, in *UserIdRequest, opts ...grpc.CallOption) (*UserTasksListResponse, error)
+	SubmitTaskAnswer(ctx context.Context, in *SubmitAnswerRequest, opts ...grpc.CallOption) (*SubmitAnswerResponse, error)
+	GetTaskAnswers(ctx context.Context, in *TaskAnswersRequest, opts ...grpc.CallOption) (*TaskAnswersResponse, error)
 }
 
 type tasksServiceClient struct {
@@ -268,16 +269,36 @@ func (c *tasksServiceClient) GetCompletedTasksByUser(ctx context.Context, in *Us
 	return out, nil
 }
 
+func (c *tasksServiceClient) SubmitTaskAnswer(ctx context.Context, in *SubmitAnswerRequest, opts ...grpc.CallOption) (*SubmitAnswerResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SubmitAnswerResponse)
+	err := c.cc.Invoke(ctx, TasksService_SubmitTaskAnswer_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tasksServiceClient) GetTaskAnswers(ctx context.Context, in *TaskAnswersRequest, opts ...grpc.CallOption) (*TaskAnswersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TaskAnswersResponse)
+	err := c.cc.Invoke(ctx, TasksService_GetTaskAnswers_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TasksServiceServer is the server API for TasksService service.
 // All implementations must embed UnimplementedTasksServiceServer
 // for forward compatibility.
-//
-// Сервис для работы с заданиями
 type TasksServiceServer interface {
 	CreateTask(context.Context, *TaskCreateRequest) (*TaskResponse, error)
 	GetTasksByCourse(context.Context, *CourseIdRequest) (*TasksListResponse, error)
 	CompleteTask(context.Context, *UserTaskRequest) (*CompleteTaskResponse, error)
 	GetCompletedTasksByUser(context.Context, *UserIdRequest) (*UserTasksListResponse, error)
+	SubmitTaskAnswer(context.Context, *SubmitAnswerRequest) (*SubmitAnswerResponse, error)
+	GetTaskAnswers(context.Context, *TaskAnswersRequest) (*TaskAnswersResponse, error)
 	mustEmbedUnimplementedTasksServiceServer()
 }
 
@@ -299,6 +320,12 @@ func (UnimplementedTasksServiceServer) CompleteTask(context.Context, *UserTaskRe
 }
 func (UnimplementedTasksServiceServer) GetCompletedTasksByUser(context.Context, *UserIdRequest) (*UserTasksListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCompletedTasksByUser not implemented")
+}
+func (UnimplementedTasksServiceServer) SubmitTaskAnswer(context.Context, *SubmitAnswerRequest) (*SubmitAnswerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SubmitTaskAnswer not implemented")
+}
+func (UnimplementedTasksServiceServer) GetTaskAnswers(context.Context, *TaskAnswersRequest) (*TaskAnswersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTaskAnswers not implemented")
 }
 func (UnimplementedTasksServiceServer) mustEmbedUnimplementedTasksServiceServer() {}
 func (UnimplementedTasksServiceServer) testEmbeddedByValue()                      {}
@@ -393,6 +420,42 @@ func _TasksService_GetCompletedTasksByUser_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TasksService_SubmitTaskAnswer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SubmitAnswerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TasksServiceServer).SubmitTaskAnswer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TasksService_SubmitTaskAnswer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TasksServiceServer).SubmitTaskAnswer(ctx, req.(*SubmitAnswerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TasksService_GetTaskAnswers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TaskAnswersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TasksServiceServer).GetTaskAnswers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TasksService_GetTaskAnswers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TasksServiceServer).GetTaskAnswers(ctx, req.(*TaskAnswersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TasksService_ServiceDesc is the grpc.ServiceDesc for TasksService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -415,6 +478,14 @@ var TasksService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetCompletedTasksByUser",
 			Handler:    _TasksService_GetCompletedTasksByUser_Handler,
+		},
+		{
+			MethodName: "SubmitTaskAnswer",
+			Handler:    _TasksService_SubmitTaskAnswer_Handler,
+		},
+		{
+			MethodName: "GetTaskAnswers",
+			Handler:    _TasksService_GetTaskAnswers_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

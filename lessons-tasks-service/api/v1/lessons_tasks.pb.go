@@ -7,12 +7,12 @@
 package v1
 
 import (
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
-
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -22,82 +22,122 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Сообщения для уроков
-type LessonCreateRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	CourseId      string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
-	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
+// Ответы на задания
+type AnswerStatus int32
 
-func (x *LessonCreateRequest) Reset() {
-	*x = LessonCreateRequest{}
-	mi := &file_lessons_tasks_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
+const (
+	AnswerStatus_PENDING  AnswerStatus = 0
+	AnswerStatus_APPROVED AnswerStatus = 1
+	AnswerStatus_REJECTED AnswerStatus = 2
+)
 
-func (x *LessonCreateRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*LessonCreateRequest) ProtoMessage() {}
-
-func (x *LessonCreateRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_lessons_tasks_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
+// Enum value maps for AnswerStatus.
+var (
+	AnswerStatus_name = map[int32]string{
+		0: "PENDING",
+		1: "APPROVED",
+		2: "REJECTED",
 	}
-	return mi.MessageOf(x)
+	AnswerStatus_value = map[string]int32{
+		"PENDING":  0,
+		"APPROVED": 1,
+		"REJECTED": 2,
+	}
+)
+
+func (x AnswerStatus) Enum() *AnswerStatus {
+	p := new(AnswerStatus)
+	*p = x
+	return p
 }
 
-// Deprecated: Use LessonCreateRequest.ProtoReflect.Descriptor instead.
-func (*LessonCreateRequest) Descriptor() ([]byte, []int) {
+func (x AnswerStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (AnswerStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_lessons_tasks_proto_enumTypes[0].Descriptor()
+}
+
+func (AnswerStatus) Type() protoreflect.EnumType {
+	return &file_lessons_tasks_proto_enumTypes[0]
+}
+
+func (x AnswerStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use AnswerStatus.Descriptor instead.
+func (AnswerStatus) EnumDescriptor() ([]byte, []int) {
 	return file_lessons_tasks_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *LessonCreateRequest) GetCourseId() string {
+// Общие сообщения
+type CourseIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CourseIdRequest) Reset() {
+	*x = CourseIdRequest{}
+	mi := &file_lessons_tasks_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CourseIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CourseIdRequest) ProtoMessage() {}
+
+func (x *CourseIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_lessons_tasks_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CourseIdRequest.ProtoReflect.Descriptor instead.
+func (*CourseIdRequest) Descriptor() ([]byte, []int) {
+	return file_lessons_tasks_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *CourseIdRequest) GetCourseId() string {
 	if x != nil {
 		return x.CourseId
 	}
 	return ""
 }
 
-func (x *LessonCreateRequest) GetDescription() string {
-	if x != nil {
-		return x.Description
-	}
-	return ""
-}
-
-type LessonResponse struct {
+type LessonIdRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	CourseId      string                 `protobuf:"bytes,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	LessonId      string                 `protobuf:"bytes,1,opt,name=lesson_id,json=lessonId,proto3" json:"lesson_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *LessonResponse) Reset() {
-	*x = LessonResponse{}
+func (x *LessonIdRequest) Reset() {
+	*x = LessonIdRequest{}
 	mi := &file_lessons_tasks_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *LessonResponse) String() string {
+func (x *LessonIdRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*LessonResponse) ProtoMessage() {}
+func (*LessonIdRequest) ProtoMessage() {}
 
-func (x *LessonResponse) ProtoReflect() protoreflect.Message {
+func (x *LessonIdRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_lessons_tasks_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -109,28 +149,14 @@ func (x *LessonResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use LessonResponse.ProtoReflect.Descriptor instead.
-func (*LessonResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use LessonIdRequest.ProtoReflect.Descriptor instead.
+func (*LessonIdRequest) Descriptor() ([]byte, []int) {
 	return file_lessons_tasks_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *LessonResponse) GetId() string {
+func (x *LessonIdRequest) GetLessonId() string {
 	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *LessonResponse) GetCourseId() string {
-	if x != nil {
-		return x.CourseId
-	}
-	return ""
-}
-
-func (x *LessonResponse) GetDescription() string {
-	if x != nil {
-		return x.Description
+		return x.LessonId
 	}
 	return ""
 }
@@ -179,6 +205,171 @@ func (x *UserIdRequest) GetUserId() string {
 	return ""
 }
 
+type DeleteResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteResponse) Reset() {
+	*x = DeleteResponse{}
+	mi := &file_lessons_tasks_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteResponse) ProtoMessage() {}
+
+func (x *DeleteResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_lessons_tasks_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteResponse.ProtoReflect.Descriptor instead.
+func (*DeleteResponse) Descriptor() ([]byte, []int) {
+	return file_lessons_tasks_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *DeleteResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+// Lessons messages
+type LessonCreateRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseId      string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LessonCreateRequest) Reset() {
+	*x = LessonCreateRequest{}
+	mi := &file_lessons_tasks_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LessonCreateRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LessonCreateRequest) ProtoMessage() {}
+
+func (x *LessonCreateRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_lessons_tasks_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LessonCreateRequest.ProtoReflect.Descriptor instead.
+func (*LessonCreateRequest) Descriptor() ([]byte, []int) {
+	return file_lessons_tasks_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *LessonCreateRequest) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
+}
+
+func (x *LessonCreateRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+type LessonResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	CourseId      string                 `protobuf:"bytes,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LessonResponse) Reset() {
+	*x = LessonResponse{}
+	mi := &file_lessons_tasks_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LessonResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LessonResponse) ProtoMessage() {}
+
+func (x *LessonResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_lessons_tasks_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LessonResponse.ProtoReflect.Descriptor instead.
+func (*LessonResponse) Descriptor() ([]byte, []int) {
+	return file_lessons_tasks_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *LessonResponse) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *LessonResponse) GetCourseId() string {
+	if x != nil {
+		return x.CourseId
+	}
+	return ""
+}
+
+func (x *LessonResponse) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *LessonResponse) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
 type LessonsListResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Lessons       []*LessonResponse      `protobuf:"bytes,1,rep,name=lessons,proto3" json:"lessons,omitempty"`
@@ -188,7 +379,7 @@ type LessonsListResponse struct {
 
 func (x *LessonsListResponse) Reset() {
 	*x = LessonsListResponse{}
-	mi := &file_lessons_tasks_proto_msgTypes[3]
+	mi := &file_lessons_tasks_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -200,7 +391,7 @@ func (x *LessonsListResponse) String() string {
 func (*LessonsListResponse) ProtoMessage() {}
 
 func (x *LessonsListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_lessons_tasks_proto_msgTypes[3]
+	mi := &file_lessons_tasks_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -213,7 +404,7 @@ func (x *LessonsListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LessonsListResponse.ProtoReflect.Descriptor instead.
 func (*LessonsListResponse) Descriptor() ([]byte, []int) {
-	return file_lessons_tasks_proto_rawDescGZIP(), []int{3}
+	return file_lessons_tasks_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *LessonsListResponse) GetLessons() []*LessonResponse {
@@ -223,7 +414,7 @@ func (x *LessonsListResponse) GetLessons() []*LessonResponse {
 	return nil
 }
 
-// Сообщения для заданий
+// Tasks messages
 type TaskCreateRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	CourseId      string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
@@ -234,7 +425,7 @@ type TaskCreateRequest struct {
 
 func (x *TaskCreateRequest) Reset() {
 	*x = TaskCreateRequest{}
-	mi := &file_lessons_tasks_proto_msgTypes[4]
+	mi := &file_lessons_tasks_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -246,7 +437,7 @@ func (x *TaskCreateRequest) String() string {
 func (*TaskCreateRequest) ProtoMessage() {}
 
 func (x *TaskCreateRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_lessons_tasks_proto_msgTypes[4]
+	mi := &file_lessons_tasks_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -259,7 +450,7 @@ func (x *TaskCreateRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TaskCreateRequest.ProtoReflect.Descriptor instead.
 func (*TaskCreateRequest) Descriptor() ([]byte, []int) {
-	return file_lessons_tasks_proto_rawDescGZIP(), []int{4}
+	return file_lessons_tasks_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *TaskCreateRequest) GetCourseId() string {
@@ -281,13 +472,14 @@ type TaskResponse struct {
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	CourseId      string                 `protobuf:"bytes,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *TaskResponse) Reset() {
 	*x = TaskResponse{}
-	mi := &file_lessons_tasks_proto_msgTypes[5]
+	mi := &file_lessons_tasks_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -299,7 +491,7 @@ func (x *TaskResponse) String() string {
 func (*TaskResponse) ProtoMessage() {}
 
 func (x *TaskResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_lessons_tasks_proto_msgTypes[5]
+	mi := &file_lessons_tasks_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -312,7 +504,7 @@ func (x *TaskResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TaskResponse.ProtoReflect.Descriptor instead.
 func (*TaskResponse) Descriptor() ([]byte, []int) {
-	return file_lessons_tasks_proto_rawDescGZIP(), []int{5}
+	return file_lessons_tasks_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *TaskResponse) GetId() string {
@@ -336,6 +528,13 @@ func (x *TaskResponse) GetDescription() string {
 	return ""
 }
 
+func (x *TaskResponse) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
 type TasksListResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Tasks         []*TaskResponse        `protobuf:"bytes,1,rep,name=tasks,proto3" json:"tasks,omitempty"`
@@ -345,7 +544,7 @@ type TasksListResponse struct {
 
 func (x *TasksListResponse) Reset() {
 	*x = TasksListResponse{}
-	mi := &file_lessons_tasks_proto_msgTypes[6]
+	mi := &file_lessons_tasks_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -357,7 +556,7 @@ func (x *TasksListResponse) String() string {
 func (*TasksListResponse) ProtoMessage() {}
 
 func (x *TasksListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_lessons_tasks_proto_msgTypes[6]
+	mi := &file_lessons_tasks_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -370,7 +569,7 @@ func (x *TasksListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TasksListResponse.ProtoReflect.Descriptor instead.
 func (*TasksListResponse) Descriptor() ([]byte, []int) {
-	return file_lessons_tasks_proto_rawDescGZIP(), []int{6}
+	return file_lessons_tasks_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *TasksListResponse) GetTasks() []*TaskResponse {
@@ -380,7 +579,7 @@ func (x *TasksListResponse) GetTasks() []*TaskResponse {
 	return nil
 }
 
-// Сообщения для связи ученики-задания
+// User-Tasks messages
 type UserTaskRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TaskId        string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
@@ -391,7 +590,7 @@ type UserTaskRequest struct {
 
 func (x *UserTaskRequest) Reset() {
 	*x = UserTaskRequest{}
-	mi := &file_lessons_tasks_proto_msgTypes[7]
+	mi := &file_lessons_tasks_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -403,7 +602,7 @@ func (x *UserTaskRequest) String() string {
 func (*UserTaskRequest) ProtoMessage() {}
 
 func (x *UserTaskRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_lessons_tasks_proto_msgTypes[7]
+	mi := &file_lessons_tasks_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -416,7 +615,7 @@ func (x *UserTaskRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserTaskRequest.ProtoReflect.Descriptor instead.
 func (*UserTaskRequest) Descriptor() ([]byte, []int) {
-	return file_lessons_tasks_proto_rawDescGZIP(), []int{7}
+	return file_lessons_tasks_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *UserTaskRequest) GetTaskId() string {
@@ -442,7 +641,7 @@ type CompleteTaskResponse struct {
 
 func (x *CompleteTaskResponse) Reset() {
 	*x = CompleteTaskResponse{}
-	mi := &file_lessons_tasks_proto_msgTypes[8]
+	mi := &file_lessons_tasks_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -454,7 +653,7 @@ func (x *CompleteTaskResponse) String() string {
 func (*CompleteTaskResponse) ProtoMessage() {}
 
 func (x *CompleteTaskResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_lessons_tasks_proto_msgTypes[8]
+	mi := &file_lessons_tasks_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -467,7 +666,7 @@ func (x *CompleteTaskResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CompleteTaskResponse.ProtoReflect.Descriptor instead.
 func (*CompleteTaskResponse) Descriptor() ([]byte, []int) {
-	return file_lessons_tasks_proto_rawDescGZIP(), []int{8}
+	return file_lessons_tasks_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *CompleteTaskResponse) GetSuccess() bool {
@@ -486,7 +685,7 @@ type UserTasksListResponse struct {
 
 func (x *UserTasksListResponse) Reset() {
 	*x = UserTasksListResponse{}
-	mi := &file_lessons_tasks_proto_msgTypes[9]
+	mi := &file_lessons_tasks_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -498,7 +697,7 @@ func (x *UserTasksListResponse) String() string {
 func (*UserTasksListResponse) ProtoMessage() {}
 
 func (x *UserTasksListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_lessons_tasks_proto_msgTypes[9]
+	mi := &file_lessons_tasks_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -511,7 +710,7 @@ func (x *UserTasksListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserTasksListResponse.ProtoReflect.Descriptor instead.
 func (*UserTasksListResponse) Descriptor() ([]byte, []int) {
-	return file_lessons_tasks_proto_rawDescGZIP(), []int{9}
+	return file_lessons_tasks_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *UserTasksListResponse) GetTasks() []*TaskResponse {
@@ -521,29 +720,31 @@ func (x *UserTasksListResponse) GetTasks() []*TaskResponse {
 	return nil
 }
 
-// Общие сообщения
-type CourseIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	CourseId      string                 `protobuf:"bytes,1,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+type SubmitAnswerRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	TaskId         string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	UserId         string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	AnswerText     string                 `protobuf:"bytes,3,opt,name=answer_text,json=answerText,proto3" json:"answer_text,omitempty"`
+	AttachmentUrls []string               `protobuf:"bytes,4,rep,name=attachment_urls,json=attachmentUrls,proto3" json:"attachment_urls,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
-func (x *CourseIdRequest) Reset() {
-	*x = CourseIdRequest{}
-	mi := &file_lessons_tasks_proto_msgTypes[10]
+func (x *SubmitAnswerRequest) Reset() {
+	*x = SubmitAnswerRequest{}
+	mi := &file_lessons_tasks_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CourseIdRequest) String() string {
+func (x *SubmitAnswerRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CourseIdRequest) ProtoMessage() {}
+func (*SubmitAnswerRequest) ProtoMessage() {}
 
-func (x *CourseIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_lessons_tasks_proto_msgTypes[10]
+func (x *SubmitAnswerRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_lessons_tasks_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -554,84 +755,67 @@ func (x *CourseIdRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CourseIdRequest.ProtoReflect.Descriptor instead.
-func (*CourseIdRequest) Descriptor() ([]byte, []int) {
-	return file_lessons_tasks_proto_rawDescGZIP(), []int{10}
+// Deprecated: Use SubmitAnswerRequest.ProtoReflect.Descriptor instead.
+func (*SubmitAnswerRequest) Descriptor() ([]byte, []int) {
+	return file_lessons_tasks_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *CourseIdRequest) GetCourseId() string {
+func (x *SubmitAnswerRequest) GetTaskId() string {
 	if x != nil {
-		return x.CourseId
+		return x.TaskId
 	}
 	return ""
 }
 
-type LessonIdRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	LessonId      string                 `protobuf:"bytes,1,opt,name=lesson_id,json=lessonId,proto3" json:"lesson_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *LessonIdRequest) Reset() {
-	*x = LessonIdRequest{}
-	mi := &file_lessons_tasks_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *LessonIdRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*LessonIdRequest) ProtoMessage() {}
-
-func (x *LessonIdRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_lessons_tasks_proto_msgTypes[11]
+func (x *SubmitAnswerRequest) GetUserId() string {
 	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use LessonIdRequest.ProtoReflect.Descriptor instead.
-func (*LessonIdRequest) Descriptor() ([]byte, []int) {
-	return file_lessons_tasks_proto_rawDescGZIP(), []int{11}
-}
-
-func (x *LessonIdRequest) GetLessonId() string {
-	if x != nil {
-		return x.LessonId
+		return x.UserId
 	}
 	return ""
 }
 
-type DeleteResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+func (x *SubmitAnswerRequest) GetAnswerText() string {
+	if x != nil {
+		return x.AnswerText
+	}
+	return ""
 }
 
-func (x *DeleteResponse) Reset() {
-	*x = DeleteResponse{}
-	mi := &file_lessons_tasks_proto_msgTypes[12]
+func (x *SubmitAnswerRequest) GetAttachmentUrls() []string {
+	if x != nil {
+		return x.AttachmentUrls
+	}
+	return nil
+}
+
+type SubmitAnswerResponse struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	TaskId         string                 `protobuf:"bytes,2,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	UserId         string                 `protobuf:"bytes,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	AnswerText     string                 `protobuf:"bytes,4,opt,name=answer_text,json=answerText,proto3" json:"answer_text,omitempty"`
+	AttachmentUrls []string               `protobuf:"bytes,5,rep,name=attachment_urls,json=attachmentUrls,proto3" json:"attachment_urls,omitempty"`
+	Status         AnswerStatus           `protobuf:"varint,6,opt,name=status,proto3,enum=classroom.v1.AnswerStatus" json:"status,omitempty"`
+	CreatedAt      *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *SubmitAnswerResponse) Reset() {
+	*x = SubmitAnswerResponse{}
+	mi := &file_lessons_tasks_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *DeleteResponse) String() string {
+func (x *SubmitAnswerResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*DeleteResponse) ProtoMessage() {}
+func (*SubmitAnswerResponse) ProtoMessage() {}
 
-func (x *DeleteResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_lessons_tasks_proto_msgTypes[12]
+func (x *SubmitAnswerResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_lessons_tasks_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -642,41 +826,189 @@ func (x *DeleteResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteResponse.ProtoReflect.Descriptor instead.
-func (*DeleteResponse) Descriptor() ([]byte, []int) {
-	return file_lessons_tasks_proto_rawDescGZIP(), []int{12}
+// Deprecated: Use SubmitAnswerResponse.ProtoReflect.Descriptor instead.
+func (*SubmitAnswerResponse) Descriptor() ([]byte, []int) {
+	return file_lessons_tasks_proto_rawDescGZIP(), []int{14}
 }
 
-func (x *DeleteResponse) GetSuccess() bool {
+func (x *SubmitAnswerResponse) GetId() string {
 	if x != nil {
-		return x.Success
+		return x.Id
 	}
-	return false
+	return ""
+}
+
+func (x *SubmitAnswerResponse) GetTaskId() string {
+	if x != nil {
+		return x.TaskId
+	}
+	return ""
+}
+
+func (x *SubmitAnswerResponse) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *SubmitAnswerResponse) GetAnswerText() string {
+	if x != nil {
+		return x.AnswerText
+	}
+	return ""
+}
+
+func (x *SubmitAnswerResponse) GetAttachmentUrls() []string {
+	if x != nil {
+		return x.AttachmentUrls
+	}
+	return nil
+}
+
+func (x *SubmitAnswerResponse) GetStatus() AnswerStatus {
+	if x != nil {
+		return x.Status
+	}
+	return AnswerStatus_PENDING
+}
+
+func (x *SubmitAnswerResponse) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+type TaskAnswersRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TaskId        string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TaskAnswersRequest) Reset() {
+	*x = TaskAnswersRequest{}
+	mi := &file_lessons_tasks_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TaskAnswersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TaskAnswersRequest) ProtoMessage() {}
+
+func (x *TaskAnswersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_lessons_tasks_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TaskAnswersRequest.ProtoReflect.Descriptor instead.
+func (*TaskAnswersRequest) Descriptor() ([]byte, []int) {
+	return file_lessons_tasks_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *TaskAnswersRequest) GetTaskId() string {
+	if x != nil {
+		return x.TaskId
+	}
+	return ""
+}
+
+func (x *TaskAnswersRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+type TaskAnswersResponse struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Answers       []*SubmitAnswerResponse `protobuf:"bytes,1,rep,name=answers,proto3" json:"answers,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TaskAnswersResponse) Reset() {
+	*x = TaskAnswersResponse{}
+	mi := &file_lessons_tasks_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TaskAnswersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TaskAnswersResponse) ProtoMessage() {}
+
+func (x *TaskAnswersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_lessons_tasks_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TaskAnswersResponse.ProtoReflect.Descriptor instead.
+func (*TaskAnswersResponse) Descriptor() ([]byte, []int) {
+	return file_lessons_tasks_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *TaskAnswersResponse) GetAnswers() []*SubmitAnswerResponse {
+	if x != nil {
+		return x.Answers
+	}
+	return nil
 }
 
 var File_lessons_tasks_proto protoreflect.FileDescriptor
 
 const file_lessons_tasks_proto_rawDesc = "" +
 	"\n" +
-	"\x13lessons_tasks.proto\x12\fclassroom.v1\"T\n" +
+	"\x13lessons_tasks.proto\x12\fclassroom.v1\x1a\x1fgoogle/protobuf/timestamp.proto\".\n" +
+	"\x0fCourseIdRequest\x12\x1b\n" +
+	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\".\n" +
+	"\x0fLessonIdRequest\x12\x1b\n" +
+	"\tlesson_id\x18\x01 \x01(\tR\blessonId\"(\n" +
+	"\rUserIdRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"*\n" +
+	"\x0eDeleteResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"T\n" +
 	"\x13LessonCreateRequest\x12\x1b\n" +
 	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescription\"_\n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\"\x9a\x01\n" +
 	"\x0eLessonResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tcourse_id\x18\x02 \x01(\tR\bcourseId\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\"(\n" +
-	"\rUserIdRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\"M\n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x129\n" +
+	"\n" +
+	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"M\n" +
 	"\x13LessonsListResponse\x126\n" +
 	"\alessons\x18\x01 \x03(\v2\x1c.classroom.v1.LessonResponseR\alessons\"R\n" +
 	"\x11TaskCreateRequest\x12\x1b\n" +
 	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescription\"]\n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\"\x98\x01\n" +
 	"\fTaskResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tcourse_id\x18\x02 \x01(\tR\bcourseId\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\"E\n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x129\n" +
+	"\n" +
+	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"E\n" +
 	"\x11TasksListResponse\x120\n" +
 	"\x05tasks\x18\x01 \x03(\v2\x1a.classroom.v1.TaskResponseR\x05tasks\"C\n" +
 	"\x0fUserTaskRequest\x12\x17\n" +
@@ -685,23 +1017,44 @@ const file_lessons_tasks_proto_rawDesc = "" +
 	"\x14CompleteTaskResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\"I\n" +
 	"\x15UserTasksListResponse\x120\n" +
-	"\x05tasks\x18\x01 \x03(\v2\x1a.classroom.v1.TaskResponseR\x05tasks\".\n" +
-	"\x0fCourseIdRequest\x12\x1b\n" +
-	"\tcourse_id\x18\x01 \x01(\tR\bcourseId\".\n" +
-	"\x0fLessonIdRequest\x12\x1b\n" +
-	"\tlesson_id\x18\x01 \x01(\tR\blessonId\"*\n" +
-	"\x0eDeleteResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess2\x86\x02\n" +
+	"\x05tasks\x18\x01 \x03(\v2\x1a.classroom.v1.TaskResponseR\x05tasks\"\x91\x01\n" +
+	"\x13SubmitAnswerRequest\x12\x17\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x1f\n" +
+	"\vanswer_text\x18\x03 \x01(\tR\n" +
+	"answerText\x12'\n" +
+	"\x0fattachment_urls\x18\x04 \x03(\tR\x0eattachmentUrls\"\x91\x02\n" +
+	"\x14SubmitAnswerResponse\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
+	"\atask_id\x18\x02 \x01(\tR\x06taskId\x12\x17\n" +
+	"\auser_id\x18\x03 \x01(\tR\x06userId\x12\x1f\n" +
+	"\vanswer_text\x18\x04 \x01(\tR\n" +
+	"answerText\x12'\n" +
+	"\x0fattachment_urls\x18\x05 \x03(\tR\x0eattachmentUrls\x122\n" +
+	"\x06status\x18\x06 \x01(\x0e2\x1a.classroom.v1.AnswerStatusR\x06status\x129\n" +
+	"\n" +
+	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"F\n" +
+	"\x12TaskAnswersRequest\x12\x17\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\"S\n" +
+	"\x13TaskAnswersResponse\x12<\n" +
+	"\aanswers\x18\x01 \x03(\v2\".classroom.v1.SubmitAnswerResponseR\aanswers*7\n" +
+	"\fAnswerStatus\x12\v\n" +
+	"\aPENDING\x10\x00\x12\f\n" +
+	"\bAPPROVED\x10\x01\x12\f\n" +
+	"\bREJECTED\x10\x022\x86\x02\n" +
 	"\x0eLessonsService\x12O\n" +
 	"\fCreateLesson\x12!.classroom.v1.LessonCreateRequest\x1a\x1c.classroom.v1.LessonResponse\x12V\n" +
 	"\x12GetLessonsByCourse\x12\x1d.classroom.v1.CourseIdRequest\x1a!.classroom.v1.LessonsListResponse\x12K\n" +
-	"\fDeleteLesson\x12\x1d.classroom.v1.LessonIdRequest\x1a\x1c.classroom.v1.DeleteResponse2\xdd\x02\n" +
+	"\fDeleteLesson\x12\x1d.classroom.v1.LessonIdRequest\x1a\x1c.classroom.v1.DeleteResponse2\x8f\x04\n" +
 	"\fTasksService\x12I\n" +
 	"\n" +
 	"CreateTask\x12\x1f.classroom.v1.TaskCreateRequest\x1a\x1a.classroom.v1.TaskResponse\x12R\n" +
 	"\x10GetTasksByCourse\x12\x1d.classroom.v1.CourseIdRequest\x1a\x1f.classroom.v1.TasksListResponse\x12Q\n" +
 	"\fCompleteTask\x12\x1d.classroom.v1.UserTaskRequest\x1a\".classroom.v1.CompleteTaskResponse\x12[\n" +
-	"\x17GetCompletedTasksByUser\x12\x1b.classroom.v1.UserIdRequest\x1a#.classroom.v1.UserTasksListResponseBHZFgithub.com/moyamoyaradost/classroom-go/lessons-tasks-service/api/v1;v1b\x06proto3"
+	"\x17GetCompletedTasksByUser\x12\x1b.classroom.v1.UserIdRequest\x1a#.classroom.v1.UserTasksListResponse\x12Y\n" +
+	"\x10SubmitTaskAnswer\x12!.classroom.v1.SubmitAnswerRequest\x1a\".classroom.v1.SubmitAnswerResponse\x12U\n" +
+	"\x0eGetTaskAnswers\x12 .classroom.v1.TaskAnswersRequest\x1a!.classroom.v1.TaskAnswersResponseBHZFgithub.com/moyamoyaradost/classroom-go/lessons-tasks-service/api/v1;v1b\x06proto3"
 
 var (
 	file_lessons_tasks_proto_rawDescOnce sync.Once
@@ -715,45 +1068,61 @@ func file_lessons_tasks_proto_rawDescGZIP() []byte {
 	return file_lessons_tasks_proto_rawDescData
 }
 
-var file_lessons_tasks_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_lessons_tasks_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_lessons_tasks_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
 var file_lessons_tasks_proto_goTypes = []any{
-	(*LessonCreateRequest)(nil),   // 0: classroom.v1.LessonCreateRequest
-	(*LessonResponse)(nil),        // 1: classroom.v1.LessonResponse
-	(*UserIdRequest)(nil),         // 2: classroom.v1.UserIdRequest
-	(*LessonsListResponse)(nil),   // 3: classroom.v1.LessonsListResponse
-	(*TaskCreateRequest)(nil),     // 4: classroom.v1.TaskCreateRequest
-	(*TaskResponse)(nil),          // 5: classroom.v1.TaskResponse
-	(*TasksListResponse)(nil),     // 6: classroom.v1.TasksListResponse
-	(*UserTaskRequest)(nil),       // 7: classroom.v1.UserTaskRequest
-	(*CompleteTaskResponse)(nil),  // 8: classroom.v1.CompleteTaskResponse
-	(*UserTasksListResponse)(nil), // 9: classroom.v1.UserTasksListResponse
-	(*CourseIdRequest)(nil),       // 10: classroom.v1.CourseIdRequest
-	(*LessonIdRequest)(nil),       // 11: classroom.v1.LessonIdRequest
-	(*DeleteResponse)(nil),        // 12: classroom.v1.DeleteResponse
+	(AnswerStatus)(0),             // 0: classroom.v1.AnswerStatus
+	(*CourseIdRequest)(nil),       // 1: classroom.v1.CourseIdRequest
+	(*LessonIdRequest)(nil),       // 2: classroom.v1.LessonIdRequest
+	(*UserIdRequest)(nil),         // 3: classroom.v1.UserIdRequest
+	(*DeleteResponse)(nil),        // 4: classroom.v1.DeleteResponse
+	(*LessonCreateRequest)(nil),   // 5: classroom.v1.LessonCreateRequest
+	(*LessonResponse)(nil),        // 6: classroom.v1.LessonResponse
+	(*LessonsListResponse)(nil),   // 7: classroom.v1.LessonsListResponse
+	(*TaskCreateRequest)(nil),     // 8: classroom.v1.TaskCreateRequest
+	(*TaskResponse)(nil),          // 9: classroom.v1.TaskResponse
+	(*TasksListResponse)(nil),     // 10: classroom.v1.TasksListResponse
+	(*UserTaskRequest)(nil),       // 11: classroom.v1.UserTaskRequest
+	(*CompleteTaskResponse)(nil),  // 12: classroom.v1.CompleteTaskResponse
+	(*UserTasksListResponse)(nil), // 13: classroom.v1.UserTasksListResponse
+	(*SubmitAnswerRequest)(nil),   // 14: classroom.v1.SubmitAnswerRequest
+	(*SubmitAnswerResponse)(nil),  // 15: classroom.v1.SubmitAnswerResponse
+	(*TaskAnswersRequest)(nil),    // 16: classroom.v1.TaskAnswersRequest
+	(*TaskAnswersResponse)(nil),   // 17: classroom.v1.TaskAnswersResponse
+	(*timestamppb.Timestamp)(nil), // 18: google.protobuf.Timestamp
 }
 var file_lessons_tasks_proto_depIdxs = []int32{
-	1,  // 0: classroom.v1.LessonsListResponse.lessons:type_name -> classroom.v1.LessonResponse
-	5,  // 1: classroom.v1.TasksListResponse.tasks:type_name -> classroom.v1.TaskResponse
-	5,  // 2: classroom.v1.UserTasksListResponse.tasks:type_name -> classroom.v1.TaskResponse
-	0,  // 3: classroom.v1.LessonsService.CreateLesson:input_type -> classroom.v1.LessonCreateRequest
-	10, // 4: classroom.v1.LessonsService.GetLessonsByCourse:input_type -> classroom.v1.CourseIdRequest
-	11, // 5: classroom.v1.LessonsService.DeleteLesson:input_type -> classroom.v1.LessonIdRequest
-	4,  // 6: classroom.v1.TasksService.CreateTask:input_type -> classroom.v1.TaskCreateRequest
-	10, // 7: classroom.v1.TasksService.GetTasksByCourse:input_type -> classroom.v1.CourseIdRequest
-	7,  // 8: classroom.v1.TasksService.CompleteTask:input_type -> classroom.v1.UserTaskRequest
-	2,  // 9: classroom.v1.TasksService.GetCompletedTasksByUser:input_type -> classroom.v1.UserIdRequest
-	1,  // 10: classroom.v1.LessonsService.CreateLesson:output_type -> classroom.v1.LessonResponse
-	3,  // 11: classroom.v1.LessonsService.GetLessonsByCourse:output_type -> classroom.v1.LessonsListResponse
-	12, // 12: classroom.v1.LessonsService.DeleteLesson:output_type -> classroom.v1.DeleteResponse
-	5,  // 13: classroom.v1.TasksService.CreateTask:output_type -> classroom.v1.TaskResponse
-	6,  // 14: classroom.v1.TasksService.GetTasksByCourse:output_type -> classroom.v1.TasksListResponse
-	8,  // 15: classroom.v1.TasksService.CompleteTask:output_type -> classroom.v1.CompleteTaskResponse
-	9,  // 16: classroom.v1.TasksService.GetCompletedTasksByUser:output_type -> classroom.v1.UserTasksListResponse
-	10, // [10:17] is the sub-list for method output_type
-	3,  // [3:10] is the sub-list for method input_type
-	3,  // [3:3] is the sub-list for extension type_name
-	3,  // [3:3] is the sub-list for extension extendee
-	0,  // [0:3] is the sub-list for field type_name
+	18, // 0: classroom.v1.LessonResponse.created_at:type_name -> google.protobuf.Timestamp
+	6,  // 1: classroom.v1.LessonsListResponse.lessons:type_name -> classroom.v1.LessonResponse
+	18, // 2: classroom.v1.TaskResponse.created_at:type_name -> google.protobuf.Timestamp
+	9,  // 3: classroom.v1.TasksListResponse.tasks:type_name -> classroom.v1.TaskResponse
+	9,  // 4: classroom.v1.UserTasksListResponse.tasks:type_name -> classroom.v1.TaskResponse
+	0,  // 5: classroom.v1.SubmitAnswerResponse.status:type_name -> classroom.v1.AnswerStatus
+	18, // 6: classroom.v1.SubmitAnswerResponse.created_at:type_name -> google.protobuf.Timestamp
+	15, // 7: classroom.v1.TaskAnswersResponse.answers:type_name -> classroom.v1.SubmitAnswerResponse
+	5,  // 8: classroom.v1.LessonsService.CreateLesson:input_type -> classroom.v1.LessonCreateRequest
+	1,  // 9: classroom.v1.LessonsService.GetLessonsByCourse:input_type -> classroom.v1.CourseIdRequest
+	2,  // 10: classroom.v1.LessonsService.DeleteLesson:input_type -> classroom.v1.LessonIdRequest
+	8,  // 11: classroom.v1.TasksService.CreateTask:input_type -> classroom.v1.TaskCreateRequest
+	1,  // 12: classroom.v1.TasksService.GetTasksByCourse:input_type -> classroom.v1.CourseIdRequest
+	11, // 13: classroom.v1.TasksService.CompleteTask:input_type -> classroom.v1.UserTaskRequest
+	3,  // 14: classroom.v1.TasksService.GetCompletedTasksByUser:input_type -> classroom.v1.UserIdRequest
+	14, // 15: classroom.v1.TasksService.SubmitTaskAnswer:input_type -> classroom.v1.SubmitAnswerRequest
+	16, // 16: classroom.v1.TasksService.GetTaskAnswers:input_type -> classroom.v1.TaskAnswersRequest
+	6,  // 17: classroom.v1.LessonsService.CreateLesson:output_type -> classroom.v1.LessonResponse
+	7,  // 18: classroom.v1.LessonsService.GetLessonsByCourse:output_type -> classroom.v1.LessonsListResponse
+	4,  // 19: classroom.v1.LessonsService.DeleteLesson:output_type -> classroom.v1.DeleteResponse
+	9,  // 20: classroom.v1.TasksService.CreateTask:output_type -> classroom.v1.TaskResponse
+	10, // 21: classroom.v1.TasksService.GetTasksByCourse:output_type -> classroom.v1.TasksListResponse
+	12, // 22: classroom.v1.TasksService.CompleteTask:output_type -> classroom.v1.CompleteTaskResponse
+	13, // 23: classroom.v1.TasksService.GetCompletedTasksByUser:output_type -> classroom.v1.UserTasksListResponse
+	15, // 24: classroom.v1.TasksService.SubmitTaskAnswer:output_type -> classroom.v1.SubmitAnswerResponse
+	17, // 25: classroom.v1.TasksService.GetTaskAnswers:output_type -> classroom.v1.TaskAnswersResponse
+	17, // [17:26] is the sub-list for method output_type
+	8,  // [8:17] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_lessons_tasks_proto_init() }
@@ -766,13 +1135,14 @@ func file_lessons_tasks_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_lessons_tasks_proto_rawDesc), len(file_lessons_tasks_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   13,
+			NumEnums:      1,
+			NumMessages:   17,
 			NumExtensions: 0,
 			NumServices:   2,
 		},
 		GoTypes:           file_lessons_tasks_proto_goTypes,
 		DependencyIndexes: file_lessons_tasks_proto_depIdxs,
+		EnumInfos:         file_lessons_tasks_proto_enumTypes,
 		MessageInfos:      file_lessons_tasks_proto_msgTypes,
 	}.Build()
 	File_lessons_tasks_proto = out.File

@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS user_tasks (
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL, -- Убрали REFERENCES users(id)
     task_id UUID NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,
     completed BOOLEAN DEFAULT false,
     completed_at TIMESTAMP WITH TIME ZONE,
